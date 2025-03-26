@@ -13,7 +13,8 @@ public class InstallerForm : Form
     private ProgressBar downloadProgressBar;
     private Label progressLabel;
     
-    private string downloadUrl = "https://zephyrgdddp.github.com/steaminstaller/archive.zip"; // Fixed URL
+    private string downloadUrl = "https://zephyrgddp.github.io/steaminstaller/archive.zip"; // Fixed URL
+    private string shortcutTargetFile = "Steam/Steam.exe"; // Editable target file for shortcuts
     
     public InstallerForm()
     {
@@ -69,6 +70,7 @@ public class InstallerForm : Form
 
         try
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             WebClient client = new WebClient();
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
             client.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(DownloadFileCompletedCallback);
@@ -107,15 +109,17 @@ public class InstallerForm : Form
         }
 
         ExtractZipWithShell(zipPath, installPath);
+        File.Delete(zipPath);
 
         if (desktopShortcutCheckBox.Checked)
         {
-            CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Steam.lnk"), installPath);
+            CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Steam.lnk"), Path.Combine(installPath, shortcutTargetFile));
         }
 
         if (startMenuShortcutCheckBox.Checked)
         {
-            CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Steam.lnk"), installPath);
+            string startMenuProgramsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs");
+            CreateShortcut(Path.Combine(startMenuProgramsPath, "Steam.lnk"), Path.Combine(installPath, shortcutTargetFile));
         }
 
         MessageBox.Show("Installation complete!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
