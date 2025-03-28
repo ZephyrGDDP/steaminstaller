@@ -13,8 +13,12 @@ public class InstallerForm : Form
     private ProgressBar downloadProgressBar;
     private Label progressLabel;
     
+<<<<<<< Updated upstream
     private string downloadUrl = "https://zephyrgddp.github.io/steaminstaller/archive.zip"; // Fixed URL
     private string shortcutTargetFile = "Steam/Steam.exe"; // Editable target file for shortcuts
+=======
+    private string downloadUrl = "https://zephyrgddp.github.io/steaminstaller/archive.zip";
+>>>>>>> Stashed changes
     
     public InstallerForm()
     {
@@ -27,8 +31,8 @@ public class InstallerForm : Form
         browseButton = new Button { Text = "Browse", Top = 20, Left = 430 };
         browseButton.Click += BrowseButton_Click;
 
-        desktopShortcutCheckBox = new CheckBox { Text = "Create Desktop Shortcut", Top = 60, Left = 10 };
-        startMenuShortcutCheckBox = new CheckBox { Text = "Create Start Menu Shortcut", Top = 90, Left = 10 };
+        desktopShortcutCheckBox = new CheckBox { Text = "Desktop Shortcut", Top = 60, Left = 10 };
+        startMenuShortcutCheckBox = new CheckBox { Text = "Start Menu Shortcut", Top = 90, Left = 10 };
 
         installButton = new Button { Text = "Install Steam", Top = 130, Left = 10, Width = 120 };
         installButton.Click += InstallButton_Click;
@@ -70,7 +74,13 @@ public class InstallerForm : Form
 
         try
         {
+<<<<<<< Updated upstream
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+=======
+            // Ensure secure TLS connection
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072; // TLS 1.2 (3072)
+
+>>>>>>> Stashed changes
             WebClient client = new WebClient();
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
             client.DownloadFileCompleted += new System.ComponentModel.AsyncCompletedEventHandler(DownloadFileCompletedCallback);
